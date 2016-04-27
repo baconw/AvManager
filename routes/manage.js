@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var http = require('http');
-var $ = require('jquery')(require("jsdom").jsdom().parentWindow);
+
+var $ = require('jquery')(require("jsdom-no-contextify").jsdom().parentWindow);
 
 function getMoviePageUrl(movieCode){
     console.log('getMoviePageUrl called!');
