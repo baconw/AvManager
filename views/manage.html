@@ -1,11 +1,5 @@
 <% include header.html %>
-<h1>Welcome, 欢迎登录！！</h1>
-<div>
-    <ul>
-        <option>主页</option>
-        <option>管理</option>
-    </ul>
-</div>
+
 <div>
     <% for(var i=0;i<movieList.length;i++){%>
         <option><a href="/manage/detail?filename=<%= movieList[i]%>"><%= movieList[i]%></option>

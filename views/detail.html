@@ -1,11 +1,5 @@
 <% include header.html %>
-<h1>Welcome, 欢迎登录！！</h1>
-<div>
-    <ul>
-        <option>主页</option>
-        <option>管理</option>
-    </ul>
-</div>
+
 <div>
     <table>
         <tr>
@@ -17,7 +11,7 @@
         <tr>
             <td>Movie Code: </td>
             <td><input id='movieCode' value=<%= movieCode%>></td>
-            <td><input type="button" value="update" onclick="javascript:update();"></td>
+            <td><input type="button" value="search" onclick="javascript:search();"></td>
         </tr>
     </table>
     <!--
@@ -31,14 +25,37 @@
 
 
 <script>
-    function update()
-    {
-        //alert('update button clicked!'+'<%= originFileName%>'+document.getElementById('movieCode').value);
+    function search(){
         code = document.getElementById('movieCode').value;
-        $.getJSON("update?movieCode="+code,
+        $.getJSON("search?movieCode="+code,
                 function(data) {  
-                    $('#rjson').val('Json info : ' + data.status);  
+                    //$('#rjson').val('Json info : ' + data.status);
+                    var detail = data.movieDetail;
+                    if(detail){
+                            //var a = $(this).children('a').attr('href');  
+                            //var title = $(this).children('a').text();
+                            $('#video_title').children('h3').children('a').text(detail.title);
+                            $('#video_id').children().children().find('.text').text(detail.code);
+                            $('#video_date').children().children().find('.text').text(detail.publishDate);
+                            $('#video_cast').children().children().find('.text').text(detail.actor);
+                            $('#video_jacket_img').attr('src',detail.pictureUrl);
+                            
+                            //alert('tags[0]' + detail.tags[0]);
+                            var content = '';
+                            for(var i=0; i < detail.tags.length;i++){
+                                content+='<span id="genre7" class="genre"><a href="vl_genre.php?g=ai" rel="category tag">' + detail.tags[i] + '</a></span>';
+                            }
+                            $('#video_genres').children().children().find('.text').html(content);
+                    }else{
+                        alert('network error... \ntry again later');
+                    }
                 });  
+    }
+    
+    function update(){
+        $.getJSON("update",function(data){
+           //alert('update complete'); 
+        });
     }
     /*
     function get_jsonp() {
@@ -57,15 +74,15 @@
     */
 </script>
 
-<div id="video_title"><h3 class="post-title text"><a href="http://www.javlibrary.com/cn/?v=javlior22a" rel='bookmark' >TGAV-021 萌え萌えお嬢様の挑発パンチラとSEX 野村萌香</a></h3>
-    <button class="smallbutton btnCorrection" style="position: absolute; top: 28px; right: 0px;">订正</button>
+<div id="rightcolumn">
+<div id="video_title"><h3 class="post-title text"><a href="http://www.javlibrary.com/cn/?v=javlior22a" rel='bookmark' >title</a></h3>
 </div> <!-- end of video_title -->
 <div class="post-body">
     <table id="video_jacket_info">
     <tr>
         <td style="vertical-align: top;">
             <div id="video_jacket">
-                <img id="video_jacket_img" src="http://pics.dmm.co.jp/mono/movie/adult/118tgav021/118tgav021p.jpg" width="600" height="403" border="0" onerror="ImgError(this, 1)"/>
+                <img id="video_jacket_img" src="" width="600" height="403" border="0" onerror="ImgError(this, 1)"/>
             </div> <!-- end of video_jacket -->
         </td>
         <td style="vertical-align: top;">
@@ -74,7 +91,7 @@
                     <table>
                         <tr>
                             <td class="header">识别码:</td>
-                            <td class="text">TGAV-021</td>
+                            <td class="text">code</td>
                             <td class="icon"></td>
                         </tr>
                     </table>
@@ -83,73 +100,16 @@
                     <table>
                         <tr>
                             <td class="header">发行日期:</td>
-                            <td class="text">2012-12-11</td>
+                            <td class="text">date</td>
                             <td class="icon"></td>
                         </tr>
                     </table>
                 </div> <!-- end of video_date -->
-                <div id="video_length" class="item">
-                    <table>
-                        <tr>
-                            <td class="header">长度:</td>
-                            <td><span class="text">125</span> 分钟</td>
-                            <td class="icon"></td>
-                        </tr>
-                    </table>
-                </div> <!-- end of video_length -->
-                <div id="video_director" class="item">
-                    <table>
-                        <tr>
-                            <td class="header">导演:</td>
-                            <td class="text">----</td>
-                            <td class="icon"></td>
-                        </tr>
-                    </table>
-                </div> <!-- end of video_director -->
-                <div id="video_maker" class="item">
-                    <table>
-                        <tr>
-                            <td class="header">制作商:</td>
-                            <td class="text"><span id="maker5" class="maker"><a href="vl_maker.php?m=aa" rel="tag">プレステージ</a> &nbsp;<span id="maker_aa" class="icn_favmaker" title="将这制作商加入我最爱的制作商名单。"></span></span></td>
-                            <td class="icon"></td>
-                        </tr>
-                    </table>
-                </div> <!-- end of video_maker -->
-                <div id="video_label" class="item">
-                    <table>
-                        <tr>
-                            <td class="header">发行商:</td>
-                            <td class="text"><span id="label8387" class="label"><a href="vl_label.php?l=beda" rel="tag">TOY GIRL</a> &nbsp;<span id="label_beda" class="icn_favlabel" title="将这发行商加入我最爱的发行商名单。"></span></span></td>
-                            <td class="icon"></td>
-                        </tr>
-                    </table>
-                </div> <!-- end of video_label -->
-                <div id="video_review" class="item">
-                    <table>
-                        <tr>
-                            <td class="header">使用者评价:</td>
-                            <td class="text">
-                            <input class="star {split:2} required" type="radio" name="reviewscore" value="1"  />
-                            <input class="star {split:2}" type="radio" name="reviewscore" value="2"  />
-                            <input class="star {split:2}" type="radio" name="reviewscore" value="3"  />
-                            <input class="star {split:2}" type="radio" name="reviewscore" value="4"  />
-                            <input class="star {split:2}" type="radio" name="reviewscore" value="5"  />
-                            <input class="star {split:2}" type="radio" name="reviewscore" value="6"  />
-                            <input class="star {split:2}" type="radio" name="reviewscore" value="7"  />
-                            <input class="star {split:2}" type="radio" name="reviewscore" value="8" checked="checked" />
-                            <input class="star {split:2}" type="radio" name="reviewscore" value="9"  />
-                            <input class="star {split:2}" type="radio" name="reviewscore" value="10"  />
-                            &nbsp;<span class="score">(8.00)</span>
-                            </td>
-                            <td class="icon"><img id="video_icn_review_edit" class="icn_edit" src="../img/icn-edit.gif" title="编辑"></td>
-                        </tr>
-                    </table>
-                </div> <!-- end of video_review -->
                 <div id="video_genres" class="item">
                     <table>
                         <tr>
                             <td class="header">类别:</td>
-                            <td class="text"><span id="genre7" class="genre"><a href="vl_genre.php?g=ai" rel="category tag">角色扮演</a></span><span id="genre32" class="genre"><a href="vl_genre.php?g=ii" rel="category tag">内衣</a></span><span id="genre51" class="genre"><a href="vl_genre.php?g=mu" rel="category tag">大小姐</a></span></td>
+                            <td class="text">tags</td>
                             <td class="icon"></td>
                         </tr>
                     </table>
@@ -158,17 +118,24 @@
                     <table>
                         <tr>
                             <td class="header">演员:</td>
-                            <td class="text"><span id="cast1067" class="cast"><span class="star"><a href="vl_star.php?s=k4mq" rel="tag">野村萌香</a></span> <span id="star_k4mq" class="icn_favstar" title="将这演员加入我最爱的演员名单。"></span></span></td>
+                            <td class="text"><span id="cast1067" class="cast"><span class="star"><a href="vl_star.php?s=k4mq" rel="tag">actor</a></span> <span id="star_k4mq" class="icn_favstar" title="将这演员加入我最爱的演员名单。"></span></span></td>
                             <td class="icon"></td>
                         </tr>
                     </table>
                 </div> <!-- end of video_cast -->
+                <div id="update_button_div" class="item">
+                    <table>
+                        <tr>
+                            <td><input type="button" value="update" onclick="javascript:update();"></td>
+                        </tr>
+                    </table>
+                </div>
             </div> <!-- end of video_info -->
         </td>
     </tr>
     </table><!-- end of video_jacket_info -->
 </div><!-- end of post-body -->
-
+</div><!-- end of rightcolumn -->
 
 <a class="btn" href="/logout">退出</a>
 <% include footer.html %>

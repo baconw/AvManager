@@ -1,9 +1,30 @@
 var express = require('express');
 var router = express.Router();
+var db = require('../database/setting');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'AvManager' });
+    res.render('index');
+});
+
+router.get('/showall',function(req,res,next){
+  console.log('call showall');
+    db.query('SELECT * from avmanager.movie;', function(err, rows, fields) {
+      if (err) throw err;
+      var moviePack = new Array();
+      for(var i = 0; i < rows.length;i++)
+      {
+          var movie = {code: rows[i].code,
+          title:rows[i].title,
+          location:rows[i].location,
+          picLocation:rows[i].picLocation};
+          moviePack.push(movie);
+          console.log('moviePack: ',i, movie);
+      }
+      console.log('moviePack length:' + moviePack.length);
+      res.send({'data':moviePack});
+    });
+    
 });
 
 router.route('/login')
@@ -32,6 +53,10 @@ router.get('/home', function(req, res){
   };
   res.render('home', {title:'Home', user:user});
 });
+
+router.get('/showdetail',function(req, res){
+  res.render('showdetail', { title: 'AvManager' });
+})
 
 /*
 router.get('/manage',function(req,res){

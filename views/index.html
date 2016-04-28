@@ -1,4 +1,45 @@
 <% include header.html %>
-<h1>Welcome to <%= title %></h1>
-<p><a href="/login">登录</p>
+
+<script>
+  window.onload = load;
+  function load(){
+    $.getJSON("showall",
+                function(data) {  
+                    //$('#rjson').val('Json info : ' + data.status);
+                    var list = data.data;
+                    var content = '';
+                    if(list){
+                        for(var i=0;i<list.length;i++){
+                          content+='<div class="video"><a href="'+list[i].location+'" title="'+list[i].title+'"><div class="id">' + list[i].code + '</div><img src="'+list[i].picLocation+'" width="147" height="200" border="0"/><div class="title" >' + list[i].title + '</div></a></div>';
+                          $('#videos').html(content);
+                        }
+                            /*
+                            $('#video_title').children('h3').children('a').text(detail.title);
+                            $('#video_id').children().children().find('.text').text(detail.code);
+                            $('#video_date').children().children().find('.text').text(detail.publishDate);
+                            $('#video_cast').children().children().find('.text').text(detail.actor);
+                            $('#video_jacket_img').attr('src',detail.pictureUrl);
+                            
+                            var content = '';
+                            for(var i=0; i < detail.tags.length;i++){
+                                content+='<div class="video"><a href="'+list[i].location+'" title="'+list[i].title+'"><div class="id">' + list[i].code + '</div><img src="'+list[i].picLocation+'" width="147" height="200" border="0"/><div class="title" >' + list[i].title + '</div></a></div>';
+                            }
+                            $('#video_genres').children().children().find('.text').html(content);
+                            */
+                    }else{
+                        alert('network error... \ntry again later');
+                    }
+                });  
+  }
+</script>
+
+<div id="rightcolumn" >
+<div class="videothumblist">
+<div id="videos" class="videos">
+</div><!-- end of videos -->
+</div><!-- end of videothumblist -->
+<div class="page_selector"><a href="/cn/vl_label.php?&mode=&l=lysa" class="page first">|&lt;&lt;</a><a class="page prev" href="/cn/vl_label.php?&mode=&l=lysa">上一页</a><a class="page" href="/cn/vl_label.php?&mode=&l=lysa">1</a><span class="page current">2</span><a class="page" href="/cn/vl_label.php?&mode=&l=lysa&page=3">3</a><a class="page" href="/cn/vl_label.php?&mode=&l=lysa&page=4">4</a><a class="page" href="/cn/vl_label.php?&mode=&l=lysa&page=5">5</a><a class="page" href="/cn/vl_label.php?&mode=&l=lysa&page=6">6</a><a class="page next" href="/cn/vl_label.php?&mode=&l=lysa&page=3">下一页</a><a class="page last" href="/cn/vl_label.php?&mode=&l=lysa&page=6">>>|</a>
+</div>
+
+</div><!-- end of rightcolumn -->
 <% include footer.html %>

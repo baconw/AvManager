@@ -33,7 +33,8 @@ app.use('/manage',manage);
 app.use('/login', routes);
 app.use('/logout', routes);
 app.use('/home', routes);
-
+app.use('/showall', routes);
+app.use('/showdetail', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -66,13 +67,15 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
 db.connect();
+/*
 db.query('SELECT username, password from avmanager.user where user.username = \'admin\'', function(err, rows, fields) {
   if (err) throw err;
- 
   console.log('The password is: ', rows[0].password);
 });
  
 db.end();
+*/
 
 module.exports = app;
